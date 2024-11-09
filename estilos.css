@@ -1,41 +1,127 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("Página completamente cargada. Iniciando script...");
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('imagen-de-fondo.jpg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
 
-    // Inicializa EmailJS con tu Public Key (User ID)
-    emailjs.init("Rd49ckEW23EpcRPNC"); // Public Key de EmailJS
+/* Contenedor principal */
+.container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco con algo de transparencia */
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    z-index: 1; /* Asegurarse de que el contenedor esté sobre el fondo */
+    box-sizing: border-box;
+    overflow: hidden; /* Asegurar que el contenido no se desborde */
+}
 
-    // Reproducir el audio de fondo automáticamente al cargar la página
-    const audio = document.getElementById('background-audio');
-    audio.play().catch(error => {
-        console.log("Error al intentar reproducir el audio:", error);
-    });
+/* Título principal */
+h1 {
+    color: #ff69b4; /* Color del texto */
+    font-size: 3.5em;
+    margin: 0;
+    animation: bounce 1.2s ease infinite;
+    font-weight: bold;
+    text-shadow: 2px 2px #f6b2b2;
+}
 
-    // Función que muestra el campo de texto para escribir el deseo
-    document.getElementById("wish-button").addEventListener("click", function() {
-        document.getElementById("wish-input-container").style.display = "block";
-        this.style.display = "none";  // Ocultar el botón de "Pide un deseo"
-    });
+/* Estilo del mensaje de cumpleaños */
+p {
+    color: #555;
+    font-size: 1.3em;
+    margin: 15px 0;
+}
 
-    // Función para enviar el deseo
-    window.submitWish = function() {
-        const wishText = document.getElementById("wish-input").value;
-        if (wishText.trim() !== "") {
-            // Enviar el deseo a través de EmailJS
-            emailjs.send("service_pr95j7p", "template_789shhs", {
-                to_name: "Luciana",
-                from_name: "Amigos",
-                message: `Un deseo de cumpleaños: ${wishText}`
-            }).then(function(response) {
-                console.log("Correo enviado con éxito", response.status, response.text);
-            }).catch(function(error) {
-                console.log("Error al enviar el correo", error);
-            });
+/* Estilos para el cuadro de texto */
+textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #ff69b4;
+    border-radius: 5px;
+    font-size: 1.1em;
+    resize: none;
+    box-sizing: border-box;
+    max-height: 150px; /* Limitar la altura para evitar desbordes */
+    overflow-y: auto; /* Hacer scroll si el texto es muy largo */
+}
 
-            // Mostrar el mensaje de confirmación
-            document.getElementById("wish-message").style.display = "block";
-            document.getElementById("wish-input-container").style.display = "none";
-        } else {
-            alert("Por favor, escribe un deseo antes de enviarlo.");
-        }
-    };
-});
+/* Estilo para los botones */
+button {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: #ff69b4;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #FF85B3;
+    transform: scale(1.1);
+}
+
+/* Animación de rebote para el título */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Confetti animado */
+.confetti-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    background-color: #FFD700;
+    opacity: 0.8;
+    animation: fall linear infinite;
+    transform: rotate(45deg);
+    border-radius: 3px;
+}
+
+.confetti-piece:nth-child(odd) { background-color: #ff69b4; }
+.confetti-piece:nth-child(even) { background-color: #87CEEB; }
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.confetti-piece:nth-child(1) { left: 10%; animation-duration: 4s; }
+.confetti-piece:nth-child(2) { left: 20%; animation-duration: 5s; }
+.confetti-piece:nth-child(3
