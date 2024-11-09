@@ -1,148 +1,41 @@
-/* Estilos para el cuerpo y el contenedor principal */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #1f1f1f; /* Fondo oscuro similar a la atmósfera del anime */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background-image: url('demon-slayer-background.jpg'); /* Fondo inspirado en el anime */
-    background-size: cover;
-    background-position: center;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Página completamente cargada. Iniciando script...");
 
-.container {
-    text-align: center;
-    background-color: rgba(255, 0, 0, 0.7); /* Rojo con opacidad similar a la atmósfera de los cazadores de demonios */
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.5);
-    max-width: 500px;
-    width: 90%;
-    z-index: 1;
-}
+    // Inicializa EmailJS con tu Public Key (User ID)
+    emailjs.init("Rd49ckEW23EpcRPNC"); // Public Key de EmailJS
 
-h1 {
-    color: #fff; /* Color blanco para el texto */
-    font-size: 3.5em; /* Tamaño grande para el título */
-    margin: 0;
-    font-weight: bold; /* Negrita */
-    text-shadow: 3px 3px #000; /* Sombra para dar la sensación de oscuridad */
-    text-transform: uppercase; /* Letras mayúsculas como en el estilo del anime */
-}
+    // Reproducir el audio de fondo automáticamente al cargar la página
+    const audio = document.getElementById('background-audio');
+    audio.play().catch(error => {
+        console.log("Error al intentar reproducir el audio:", error);
+    });
 
-p {
-    color: #f0f0f0; /* Blanco para el texto */
-    font-size: 1.3em;
-    margin: 15px 0;
-}
+    // Función que muestra el campo de texto para escribir el deseo
+    document.getElementById("wish-button").addEventListener("click", function() {
+        document.getElementById("wish-input-container").style.display = "block";
+        this.style.display = "none";  // Ocultar el botón de "Pide un deseo"
+    });
 
-/* Estilos para el cuadro de texto */
-textarea {
-    width: 90%;
-    max-width: 500px;
-    padding: 10px;
-    margin-top: 10px;
-    border: 2px solid #ff4d4d; /* Rojo, que recuerda a la sangre de los demonios */
-    border-radius: 5px;
-    font-size: 1.1em;
-    resize: none;
-    background-color: #333; /* Fondo oscuro en el cuadro de texto */
-    color: #fff; /* Texto blanco */
-}
+    // Función para enviar el deseo
+    window.submitWish = function() {
+        const wishText = document.getElementById("wish-input").value;
+        if (wishText.trim() !== "") {
+            // Enviar el deseo a través de EmailJS
+            emailjs.send("service_pr95j7p", "template_789shhs", {
+                to_name: "Luciana",
+                from_name: "Amigos",
+                message: `Un deseo de cumpleaños: ${wishText}`
+            }).then(function(response) {
+                console.log("Correo enviado con éxito", response.status, response.text);
+            }).catch(function(error) {
+                console.log("Error al enviar el correo", error);
+            });
 
-/* Estilos para el botón */
-button {
-    padding: 12px 24px;
-    font-size: 1.1em;
-    color: #fff;
-    background-color: #003366; /* Azul oscuro similar a la vestimenta de los cazadores */
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #006699; /* Azul más brillante cuando el cursor pasa */
-    transform: scale(1.1);
-}
-
-/* Fondo animado de telaraña con la imagen del anime */
-.confetti-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-    background-image: url('demon-slayer-telaraña.png'); /* Fondo inspirado en el estilo visual de la serie */
-    background-size: cover;
-    background-position: center;
-}
-
-/* Cambiar fondo para pantallas pequeñas (móviles) */
-@media screen and (max-width: 768px) {
-    .confetti-bg {
-        background-image: url('demon-slayer-telaraña-mobile.png'); /* Fondo para dispositivos móviles */
-        background-size: cover;
-        background-position: center;
-    }
-
-    .container {
-        padding: 15px; /* Reducir el padding en pantallas pequeñas */
-    }
-
-    h1 {
-        font-size: 2.5em; /* Ajustar tamaño del texto en pantallas pequeñas */
-    }
-
-    p {
-        font-size: 1.1em; /* Ajustar tamaño de texto en pantallas pequeñas */
-    }
-
-    button {
-        font-size: 1em; /* Ajustar tamaño del texto del botón */
-        padding: 10px 20px; /* Ajustar padding en botón */
-    }
-
-    textarea {
-        width: 100%; /* Ajustar tamaño del cuadro de texto en pantallas pequeñas */
-        font-size: 1em; /* Ajustar tamaño de texto */
-    }
-}
-
-/* Animación de confeti (estilo Demon Slayer) */
-.confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 15px;
-    background-color: #ff0000; /* Color rojo intenso */
-    opacity: 0.8;
-    animation: fall linear infinite;
-    transform: rotate(45deg);
-    border-radius: 3px;
-}
-
-.confetti-piece:nth-child(odd) { background-color: #0d6efd; } /* Azul intenso */
-.confetti-piece:nth-child(even) { background-color: #ff0000; } /* Rojo sangre */
-
-/* Animación de caída del confeti */
-@keyframes fall {
-    0% {
-        transform: translateY(-100px) rotate(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
+            // Mostrar el mensaje de confirmación
+            document.getElementById("wish-message").style.display = "block";
+            document.getElementById("wish-input-container").style.display = "none";
+        } else {
+            alert("Por favor, escribe un deseo antes de enviarlo.");
+        }
+    };
+});
